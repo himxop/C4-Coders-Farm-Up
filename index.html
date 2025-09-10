@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm-Up AI | Smart farming companion app</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F8F4;
+            color: #333;
+        }
+        .header-bg {
+            background-color: #355e3b;
+            background-image: linear-gradient(to right, #355e3b, #2c4c31);
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+        }
+        .nav-btn.active {
+            background-color: #eac45f;
+            color: #355e3b;
+            box-shadow: 0 4px 10px rgba(234, 196, 95, 0.4);
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chatbot-btn {
+            background-color: #5D9A4D; /* Lighter green accent */
+            box-shadow: 0 4px 12px rgba(93, 154, 77, 0.4);
+            transition: transform 0.2s ease-in-out;
+        }
+        .chatbot-btn:hover {
+            transform: scale(1.05) translateY(-2px);
+        }
+        .chatbot-modal {
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .chatbot-modal.active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header with Project Title -->
+    <header class="header-bg text-white shadow-lg py-6 sm:py-8 text-center">
+        <h1 class="text-xl sm:text-2xl font-extrabold tracking-wide px-4">Farm-up AI | Smart farming companion app</h1>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow p-6 sm:p-12 pb-24">
+        <div class="max-w-7xl mx-auto space-y-12">
+            <!-- Home Section -->
+            <section id="page-home" class="page">
+                <div class="card text-center">
+                    <div class="flex flex-col items-center justify-center space-y-8">
+                        <svg class="w-32 h-32 feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-14h2v6h-2zm0 8h2v2h-2z" fill="#EAC45F"/>
+                            <path d="M12 17c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="#355e3b"/>
+                            <path d="M14 11.5c.83 0 1.5-.67 1.5-1.5S14.83 8.5 14 8.5 12.5 9.17 12.5 10s.67 1.5 1.5 1.5zM10 11.5c-.83 0-1.5-.67-1.5-1.5S9.17 8.5 10 8.5 11.5 9.17 11.5 10s-.67 1.5-1.5 1.5z" fill="#355e3b"/>
+                            <path d="M12 11c-2.76 0-5 2.24-5 5h10c0-2.76-2.24-5-5-5z" fill="#355e3b"/>
+                        </svg>
+                        <h2 class="text-4xl md:text-5xl font-extrabold text-[#355e3b] mb-4 tracking-tight leading-tight">
+                            Empowering Farmers with AI-Powered Intelligence
+                        </h2>
+                        <p class="text-lg text-gray-600 mb-8 max-w-2xl">
+                            Farm-Up AI is a smart companion app designed to boost crop yield, optimize resource usage, and connect farmers through an easy-to-use, multilingual platform.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Detect Section -->
+            <section id="page-detect" class="page hidden">
+                <div class="card">
+                    <h2 class="text-3xl font-bold text-[#355e3b] mb-8 text-center">AI Crop Health Analysis</h2>
+                    <div class="flex flex-col items-center space-y-8">
+                        <div id="upload-area" class="w-full max-w-xl bg-gray-50 border-4 border-dashed border-gray-200 rounded-2xl p-12 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors">
+                            <input type="file" id="image-upload" accept="image/*" class="hidden">
+                            <svg class="w-16 h-16 text-gray-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                            </svg>
+                            <span class="text-gray-500 font-semibold text-lg">Click to Upload a Crop Photo</span>
+                        </div>
+                        <img id="image-preview" src="#" alt="Uploaded crop image" class="hidden w-full max-w-sm h-auto rounded-xl shadow-lg object-cover">
+                        <div id="detection-result" class="hidden w-full max-w-xl text-center p-6 rounded-2xl">
+                            <div class="font-semibold text-lg">Analyzing...</div>
+                            <div class="w-full h-2 bg-gray-200 rounded-full mt-2 overflow-hidden">
+                                <div class="h-full bg-[#EAC45F] animate-pulse"></div>
+                            </div>
+                        </div>
+                        <div id="result-message" class="hidden w-full max-w-xl p-6 rounded-2xl text-center font-bold text-lg"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advisory Section -->
+            <section id="page-advisory" class="page hidden">
+                <div class="card">
+                    <h2 class="text-3xl font-bold text-[#355e3b] mb-8 text-center">Personalized Crop Advisory</h2>
+                    <div id="advisory-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="bg-[#F8F8F4] p-6 rounded-2xl border border-gray-200 flex flex-col items-center text-center">
+                            <div class="feature-icon mb-4">
+                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15.5l-3 3-3-3M11 8.5l-3-3-3 3"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5v14"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 15.5l3 3 3-3M16 8.5l3-3 3 3"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 5v14"></path></svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#355e3b] mb-2">Efficient Irrigation</h3>
+                            <p class="text-gray-600 text-sm">Optimize your water usage with personalized irrigation schedules and weather alerts to ensure healthy crop growth.</p>
+                        </div>
+                        <div class="bg-[#F8F8F4] p-6 rounded-2xl border border-gray-200 flex flex-col items-center text-center">
+                            <div class="feature-icon mb-4">
+                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354v15.3l-2.771-2.771M12 4.354l2.771-2.771M12 4.354V21m0-16.646L14.771 7.125"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 11h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2z"></path></svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#355e3b] mb-2">Fertilizer & Nutrition</h3>
+                            <p class="text-gray-600 text-sm">Get real-time recommendations for optimal fertilizer use and soil health based on your location and crop type.</p>
+                        </div>
+                        <div class="bg-[#F8F8F4] p-6 rounded-2xl border border-gray-200 flex flex-col items-center text-center">
+                            <div class="feature-icon mb-4">
+                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3"></path></svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#355e3b] mb-2">Pest & Disease Control</h3>
+                            <p class="text-gray-600 text-sm">Identify early signs of pests and diseases with our AI and receive advice on protective measures and treatments.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Community Section -->
+            <section id="page-community" class="page hidden">
+                <div class="card">
+                    <h2 class="text-3xl font-bold text-[#355e3b] mb-8 text-center">Connect with the Farming Community</h2>
+                    <div id="chat-box" class="h-96 overflow-y-auto p-6 bg-gray-50 rounded-2xl mb-6 space-y-4">
+                        <div class="flex items-start">
+                            <div class="message-box-other p-4 rounded-3xl max-w-xs shadow-sm">
+                                <p class="text-sm font-semibold text-gray-800">Krishnan</p>
+                                <p class="text-gray-700 mt-1">My wheat crop looks a bit yellow, any suggestions for a cheap fertilizer?</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start justify-end">
+                            <div class="message-box-user p-4 rounded-3xl max-w-xs shadow-sm">
+                                <p class="text-sm font-semibold text-gray-800">You</p>
+                                <p class="text-gray-700 mt-1">Sounds like a nitrogen deficiency. Try using a small amount of urea. It's affordable and effective.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="message-box-other p-4 rounded-3xl max-w-xs shadow-sm">
+                                <p class="text-sm font-semibold text-gray-800">Sunil</p>
+                                <p class="text-gray-700 mt-1">I agree. Also, check the weather forecast to make sure it won't rain immediately after you apply it.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="chat-form" class="flex">
+                        <input type="text" id="chat-input" placeholder="Type your message..." class="flex-grow p-4 rounded-l-2xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#EAC45F]">
+                        <button type="submit" class="bg-[#EAC45F] text-[#333] px-8 py-4 rounded-r-2xl font-semibold hover:bg-[#D8B049] transition-colors">Send</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div class="fixed inset-x-0 bottom-0 bg-white shadow-xl rounded-t-3xl p-4 flex justify-around">
+        <button id="nav-home" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24 active">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 9v11h6v-6h6v6h6V9L12 2z"/></svg>
+            <span class="text-xs font-medium">Home</span>
+        </button>
+        <button id="nav-detect" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8A8 8 0 0112 20zm-1-10v4h2v-4h-2zm0-2h2v2h-2z"/></svg>
+            <span class="text-xs font-medium">Detect</span>
+        </button>
+        <button id="nav-advisory" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L4 5v6c0 5.55 3.84 10.74 9 12.5.49-.16.98-.35 1.46-.56L18 19c-.48-.21-.97-.4-.97-.4v-4.5c0-1.84 1.66-3.23 3-4V5l-8-3zm0 18.5c-4.41-1.28-7-4.53-7-8.5V6.3l7-2.61L19 6.3v5.19c-.31.06-.61.12-.9.19-2.02.48-3.6 2.05-4.08 4.07-.12.51-.19 1.04-.19 1.58h-.01c0 3.86 3.14 7 7 7 3.86 0 7-3.14 7-7 0-.54-.07-1.07-.19-1.58-1.07-4.48-5.74-7.61-10.81-7.42-3.8.14-7.07 2.45-8.5 5.86-1.57 3.65-.67 7.74 2.22 10.13L12 20.5z"/></svg>
+            <span class="text-xs font-medium">Advisory</span>
+        </button>
+        <button id="nav-community" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 14v-2h8v2H6zm10-4H6V8h10v2z"/></svg>
+            <span class="text-xs font-medium">Community</span>
+        </button>
+    </div>
+
+    <!-- Floating AI Chatbot Button -->
+    <button id="chatbot-toggle-btn" class="fixed bottom-24 right-6 w-16 h-16 rounded-full flex items-center justify-center chatbot-btn">
+        <!-- Farming doodle icon (SVG) -->
+        <svg class="w-10 h-10 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21C12 21 3 13 3 7C3 4.23858 5.23858 2 8 2C10.669 2 12 5 12 5C12 5 13.331 2 16 2C18.7614 2 21 4.23858 21 7C21 13 12 21 12 21Z" fill="#eac45f" stroke="#355e3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 11C12 11 11.2426 12.2426 10.5 13C9.75736 13.7574 9 14 9 14" stroke="#355e3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <!-- AI Chatbot Modal -->
+    <div id="chatbot-modal" class="fixed inset-x-0 bottom-0 bg-white rounded-t-3xl shadow-2xl z-50 flex flex-col h-3/4 chatbot-modal">
+        <div class="p-4 flex justify-between items-center border-b border-gray-200">
+            <h3 class="text-xl font-bold text-[#355e3b]">Farm-Up AI Chatbot</h3>
+            <button id="chatbot-close-btn" class="text-gray-500 hover:text-gray-800 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div id="ai-chat-box" class="flex-grow overflow-y-auto p-4 space-y-4">
+            <div class="flex items-start">
+                <div class="p-3 bg-gray-100 rounded-2xl max-w-[80%]">
+                    <p class="text-sm text-gray-800">Hello! I'm your AI farming assistant. How can I help you today? You can ask me anything about crops, soil, or weather.</p>
+                </div>
+            </div>
+        </div>
+        <form id="ai-chat-form" class="p-4 border-t border-gray-200 flex">
+            <input type="text" id="ai-chat-input" placeholder="Ask me anything..." class="flex-grow p-3 rounded-l-2xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5D9A4D]">
+            <button type="submit" class="bg-[#EAC45F] text-[#333] px-6 py-3 rounded-r-2xl font-semibold hover:bg-[#D8B049] transition-colors">Send</button>
+        </form>
+    </div>
+
+    <script>
+        const pages = document.querySelectorAll('.page');
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const chatbotToggleBtn = document.getElementById('chatbot-toggle-btn');
+        const chatbotModal = document.getElementById('chatbot-modal');
+        const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
+        const uploadArea = document.getElementById('upload-area');
+        const imageUploadInput = document.getElementById('image-upload');
+        const detectionResultDiv = document.getElementById('detection-result');
+        const resultMessageDiv = document.getElementById('result-message');
+        const imagePreview = document.getElementById('image-preview');
+        const aiChatForm = document.getElementById('ai-chat-form');
+        const aiChatInput = document.getElementById('ai-chat-input');
+        const aiChatBox = document.getElementById('ai-chat-box');
+        const communityChatForm = document.getElementById('chat-form');
+        const communityChatInput = document.getElementById('chat-input');
+        const communityChatBox = document.getElementById('chat-box');
+
+        // Function to show a specific page
+        function showPage(pageId) {
+            pages.forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+
+            navButtons.forEach(button => button.classList.remove('active'));
+            const currentPageBtn = document.getElementById(`nav-${pageId.split('-')[1]}`);
+            if (currentPageBtn) currentPageBtn.classList.add('active');
+        }
+
+        // Handle navigation clicks
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const pageId = `page-${button.id.split('-')[1]}`;
+                showPage(pageId);
+            });
+        });
+
+        // Handle image upload
+        uploadArea.addEventListener('click', () => {
+            imageUploadInput.click();
+        });
+
+        imageUploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    imagePreview.src = event.target.result;
+                    imagePreview.classList.remove('hidden');
+                    uploadArea.classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+
+                // Show processing message
+                detectionResultDiv.classList.remove('hidden');
+                resultMessageDiv.classList.add('hidden');
+
+                setTimeout(() => {
+                    const randomNumber = Math.random();
+                    let resultText, resultClass;
+                    if (randomNumber < 0.3) {
+                        resultText = 'Analysis Complete: Your crop is healthy!';
+                        resultClass = 'bg-green-100 text-green-800';
+                    } else if (randomNumber < 0.7) {
+                        resultText = 'Analysis Complete: Early signs of a minor deficiency. See advisory for tips.';
+                        resultClass = 'bg-yellow-100 text-yellow-800';
+                    } else {
+                        resultText = 'Analysis Complete: Detected a fungal infection. See advisory for recommended treatment.';
+                        resultClass = 'bg-red-100 text-red-800';
+                    }
+                    detectionResultDiv.classList.add('hidden');
+                    resultMessageDiv.textContent = resultText;
+                    resultMessageDiv.className = `mt-4 p-6 rounded-2xl text-center font-bold text-lg ${resultClass}`;
+                    resultMessageDiv.classList.remove('hidden');
+                }, 2000);
+            }
+        });
+
+        // Handle community chat form submission
+        communityChatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = communityChatInput.value.trim();
+            if (message) {
+                const newMessageDiv = document.createElement('div');
+                newMessageDiv.classList.add('flex', 'items-start', 'justify-end');
+                newMessageDiv.innerHTML = `
+                    <div class="bg-gray-200 p-4 rounded-3xl max-w-xs shadow-sm">
+                        <p class="text-sm font-semibold text-gray-800">You</p>
+                        <p class="text-gray-700 mt-1">${message}</p>
+                    </div>
+                `;
+                communityChatBox.appendChild(newMessageDiv);
+                communityChatInput.value = '';
+                communityChatBox.scrollTop = communityChatBox.scrollHeight;
+            }
+        });
+
+        // Chatbot button logic
+        chatbotToggleBtn.addEventListener('click', () => {
+            chatbotModal.classList.add('active');
+        });
+
+        chatbotCloseBtn.addEventListener('click', () => {
+            chatbotModal.classList.remove('active');
+        });
+
+        // AI Chatbot message simulation
+        aiChatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userMessage = aiChatInput.value.trim();
+            if (userMessage) {
+                // Add user message to chatbox
+                const userMsgDiv = document.createElement('div');
+                userMsgDiv.classList.add('flex', 'justify-end');
+                userMsgDiv.innerHTML = `<div class="p-3 bg-blue-100 rounded-2xl max-w-[80%]">${userMessage}</div>`;
+                aiChatBox.appendChild(userMsgDiv);
+                aiChatInput.value = '';
+
+                // Simulate AI response
+                setTimeout(() => {
+                    const aiResponseDiv = document.createElement('div');
+                    aiResponseDiv.classList.add('flex', 'items-start');
+                    aiResponseDiv.innerHTML = `<div class="p-3 bg-gray-100 rounded-2xl max-w-[80%]">I am a simulated AI assistant. To make me a real bot, you'll need to use the Gemini API to generate responses based on user queries!</div>`;
+                    aiChatBox.appendChild(aiResponseDiv);
+                    aiChatBox.scrollTop = aiChatBox.scrollHeight;
+                }, 1000);
+
+                aiChatBox.scrollTop = aiChatBox.scrollHeight;
+            }
+        });
+
+        // Initial page load
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('page-home');
+        });
+    </script>
+</body>
+</html>
