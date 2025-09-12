@@ -151,7 +151,7 @@
     </header>
 
     <!-- Main Content Container -->
-    <main class="flex-grow p-6 sm:p-12 pb-24">
+    <main class="flex-grow p-6 sm:p-12 pb-32">
         <div class="max-w-7xl mx-auto space-y-12">
             <!-- Home Section -->
             <section id="page-home" class="page animated-card">
@@ -172,7 +172,7 @@
 
                 <!-- Agricultural Statistics Section -->
                 <div class="mt-12">
-                    <h3 class="text-2xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-6 text-center">Key Agricultural Statistics (India)</h3>
+                    <h3 id="stats-heading" class="text-2xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-6 text-center">Key Agricultural Statistics (India)</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="stat-card flex flex-col items-center">
                             <svg class="w-12 h-12 mb-2 text-[#355e3b] dark-theme:text-[#5D9A4D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -203,7 +203,6 @@
 
                 <!-- Partner Brands Section -->
                 <div class="mt-12">
-                    <h3 class="text-2xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-6 text-center">Our Partners</h3>
                     <div class="flex flex-wrap justify-center items-center gap-8 space-y-4 sm:space-y-0">
                         <!-- Placeholder logos for Agri-brands -->
                         <div class="w-20 h-20 bg-[#f0f0e8] dark-theme:bg-gray-600 rounded-full flex items-center justify-center p-2 shadow-sm transition-transform hover:scale-110">
@@ -241,22 +240,33 @@
             <section id="page-detect" class="page hidden animated-card">
                 <div class="card">
                     <h2 class="text-3xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-8 text-center">AI Crop Health Analysis</h2>
-                    <div class="flex flex-col items-center space-y-8">
-                        <div id="upload-area" class="w-full max-w-xl bg-gray-50 dark-theme:bg-gray-700 border-4 border-dashed border-gray-200 dark-theme:border-gray-600 rounded-2xl p-12 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 dark-theme:hover:bg-gray-600 transition-colors">
-                            <input type="file" id="image-upload" accept="image/*" class="hidden">
-                            <svg class="w-16 h-16 text-gray-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-                            </svg>
-                            <span class="text-gray-500 font-semibold text-lg dark-theme:text-gray-300">Click to Upload a Crop Photo</span>
-                        </div>
-                        <img id="image-preview" src="#" alt="Uploaded crop image" class="hidden w-full max-w-sm h-auto rounded-xl shadow-lg object-cover">
-                        <div id="detection-result" class="hidden w-full max-w-xl text-center p-6 rounded-2xl">
-                            <div class="font-semibold text-lg">Analyzing...</div>
-                            <div class="w-full h-2 bg-gray-200 rounded-full mt-2 overflow-hidden">
-                                <div class="h-full bg-[#EAC45F] animate-pulse"></div>
+                    <p class="text-lg text-gray-600 dark-theme:text-gray-300 mb-8 max-w-2xl mx-auto text-center">
+                        Take a photo of your crop to instantly get an AI-powered analysis of its health. Our assistant will detect diseases, pests, and nutrient deficiencies.
+                    </p>
+                    <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
+                        <!-- Left side: Upload Area -->
+                        <div class="w-full md:w-1/2 flex flex-col items-center space-y-6">
+                            <div id="upload-area" class="w-full h-64 bg-gray-50 dark-theme:bg-gray-700 border-4 border-dashed border-gray-200 dark-theme:border-gray-600 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 dark-theme:hover:bg-gray-600 transition-colors relative group">
+                                <input type="file" id="image-upload" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                                <svg class="w-16 h-16 text-gray-400 mb-4 group-hover:text-[#eac45f] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.867-1.12c.3-.388.887-.388 1.187 0l.867 1.12A2 2 0 0017.07 7H18a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V9z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span class="text-gray-500 font-semibold text-lg dark-theme:text-gray-300 group-hover:text-[#355e3b] dark-theme:group-hover:text-[#eac45f] transition-colors">Tap to Upload a Crop Photo</span>
                             </div>
+                            <img id="image-preview" src="https://placehold.co/400x300/eac45f/355e3b?text=Preview+Image" alt="Uploaded crop image" class="w-full max-w-sm h-auto rounded-xl shadow-lg object-cover hidden">
                         </div>
-                        <div id="result-message" class="hidden w-full max-w-xl p-6 rounded-2xl text-center font-bold text-lg"></div>
+                        
+                        <!-- Right side: Result/Loading Area -->
+                        <div class="w-full md:w-1/2 flex flex-col items-center space-y-6">
+                             <div id="detection-result" class="hidden w-full max-w-xl text-center p-6 rounded-2xl">
+                                <div class="font-semibold text-lg text-gray-700 dark-theme:text-gray-300">Analyzing your crop...</div>
+                                <div class="w-full h-4 bg-gray-200 dark-theme:bg-gray-600 rounded-full mt-4 overflow-hidden">
+                                    <div class="h-full bg-[#EAC45F] animate-pulse"></div>
+                                </div>
+                            </div>
+                            <div id="result-message" class="hidden w-full max-w-xl p-6 rounded-2xl text-center font-bold text-lg"></div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -279,7 +289,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 11h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Fertilizer & Nutrition</h3>
+                            <h3 id="advisory-nutrition" class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Fertilizer & Nutrition</h3>
                             <p class="text-gray-600 dark-theme:text-gray-300 text-sm">Get real-time recommendations for optimal fertilizer use and soil health based on your location and crop type.</p>
                         </div>
                         <!-- Card 2: Pest & Disease -->
@@ -289,7 +299,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Pest & Disease Control</h3>
+                            <h3 id="advisory-pest" class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Pest & Disease Control</h3>
                             <p class="text-gray-600 dark-theme:text-gray-300 text-sm">Identify early signs of pests and diseases with our AI and receive advice on protective measures and treatments.</p>
                         </div>
                         <!-- Card 3: Irrigation Tips -->
@@ -302,7 +312,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 5v14"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Efficient Irrigation</h3>
+                            <h3 id="advisory-irrigation" class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Efficient Irrigation</h3>
                             <p class="text-gray-600 dark-theme:text-gray-300 text-sm">Optimize your water usage with personalized irrigation schedules and weather alerts to ensure healthy crop growth.</p>
                         </div>
                         <!-- Card 4: Weather Alerts & Yield Optimization -->
@@ -314,7 +324,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h6m-3-3v6m-4-3h12a2 2 0 002-2V9a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Weather Alerts & Yield Optimization</h3>
+                            <h3 id="advisory-weather" class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Weather Alerts & Yield Optimization</h3>
                             <p class="text-gray-600 dark-theme:text-gray-300 text-sm">Receive timely weather forecasts and AI-driven tips to protect your crops and maximize your harvest.</p>
                         </div>
                     </div>
@@ -324,7 +334,7 @@
             <!-- Community Section -->
             <section id="page-community" class="page hidden animated-card">
                 <div class="card">
-                    <h2 class="text-3xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-8 text-center">Connect with the Farming Community</h2>
+                    <h2 id="community-heading" class="text-3xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-8 text-center">Connect with the Farming Community</h2>
                     <div id="chat-box" class="h-96 overflow-y-auto p-6 bg-gray-50 dark-theme:bg-gray-700 rounded-2xl mb-6 space-y-4">
                         <div class="flex items-start">
                             <div class="bg-gray-100 p-4 rounded-3xl max-w-xs shadow-sm">
@@ -358,23 +368,23 @@
     <div class="fixed inset-x-0 bottom-0 bg-white dark-theme:bg-[#2d3748] shadow-xl rounded-t-3xl p-4 flex justify-around">
         <button id="nav-home" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24 active">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 9v11h6v-6h6v6h6V9L12 2z"/></svg>
-            <span class="text-xs font-medium">Home</span>
+            <span id="nav-home-text" class="text-xs font-medium">Home</span>
         </button>
         <button id="nav-detect" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8A8 8 0 0112 20zm-1-10v4h2v-4h-2zm0-2h2v2h-2z"/></svg>
-            <span class="text-xs font-medium">Detect</span>
+            <span id="nav-detect-text" class="text-xs font-medium">Detect</span>
         </button>
         <button id="nav-advisory" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L4 5v6c0 5.55 3.84 10.74 9 12.5.49-.16.98-.35 1.46-.56L18 19c-.48-.21-.97-.4-.97-.4v-4.5c0-1.84 1.66-3.23 3-4V5l-8-3zm0 18.5c-4.41-1.28-7-4.53-7-8.5V6.3l7-2.61L19 6.3v5.19c-.31.06-.61.12-.9.19-2.02.48-3.6 2.05-4.08 4.07-.12.51-.19 1.04-.19 1.58h-.01c0 3.86 3.14 7 7 7 3.86 0 7-3.14 7-7 0-.54-.07-1.07-.19-1.58-1.07-4.48-5.74-7.61-10.81-7.42-3.8.14-7.07 2.45-8.5 5.86-1.57 3.65-.67 7.74 2.22 10.13L12 20.5z"/></svg>
-            <span class="text-xs font-medium">Advisory</span>
+            <span id="nav-advisory-text" class="text-xs font-medium">Advisory</span>
         </button>
         <button id="nav-community" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 14v-2h8v2H6zm10-4H6V8h10v2z"/></svg>
-            <span class="text-xs font-medium">Community</span>
+            <span id="nav-community-text" class="text-xs font-medium">Community</span>
         </button>
         <button id="nav-settings" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24">
-             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-3.313 0-6-2.687-6-6s2.687-6 6-6 6 2.687 6 6-2.687 6-6 6zM12 14c-1.104 0-2-.896-2-2s.896-2 2-2 2 .896 2 2-.896 2-2 2zM21.582 11.233c.097.553.149 1.114.149 1.684 0 .57-.052 1.131-.149 1.684l2.454 1.838c.107.079.141.203.092.327l-2.079 3.597c-.049.124-.176.17-.291.131l-2.821-.994c-.461.341-.95.632-1.464.878l-.403 3.033c-.033.25-.246.435-.499.435h-4.156c-.253 0-.466-.185-.499-.435l-.403-3.033c-.514-.246-1.003-.537-1.464-.878l-2.821.994c-.115.039-.242-.007-.291-.131l-2.079-3.597c-.049-.124-.015-.248.092-.327l2.454-1.838c-.097-.553-.149-1.114-.149-1.684s.052-1.131.149-1.684l-2.454-1.838c-.107-.079-.141-.203-.092-.327l2.079-3.597c.049.124.176-.17.291-.131l2.821.994c.461-.341.95-.632 1.464-.878l.403-3.033c.033-.25.246-.435.499-.435h4.156c.253 0 .466.185.499.435l.403 3.033c.514.246 1.003.537 1.464.878l2.821-.994c.115-.039.242.007.291.131l2.079 3.597c.049.124.015.248-.092.327l-2.454 1.838z"/></svg>
-            <span class="text-xs font-medium">Settings</span>
+             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-3.313 0-6-2.687-6-6s2.687-6 6-6 6 2.687 6 6-2.687 6-6 6zM12 14c-1.104 0-2-.896-2-2s.896-2 2-2 2 .896 2 2-.896 2-2 2zM21.582 11.233c.097.553.149 1.114.149 1.684 0 .57-.052 1.131-.149 1.684l2.454 1.838c.107.079.141.203.092.327l-2.079 3.597c-.049.124-.176.17-.291.131l-2.821-.994c-.461.341-.95.632-1.464.878l-.403 3.033c-.033.25-.246.435-.499.435h-4.156c-.253 0-.466-.185-.499-.435l-.403-3.033c-.514-.246-1.003-.537-1.464-.878l-2.821.994c-.115.039-.242-.007-.291-.131l-2.079-3.597c-.049-.124-.015-.248.092-.327l2.454-1.838c-.097-.553-.149-1.114-.149-1.684s.052-1.131.149-1.684l-2.454-1.838c-.107-.079-.141-.203-.092-.327l2.079-3.597c.049.124.176-.17.291-.131l2.821.994c.461-.341.95-.632 1.464.878l.403-3.033c.033-.25.246-.435.499-.435h4.156c.253 0 .466.185.499.435l.403 3.033c.514.246 1.003.537 1.464.878l2.821-.994c.115-.039.242.007.291.131l2.079 3.597c.049.124.015.248-.092.327l-2.454 1.838z"/></svg>
+            <span id="nav-settings-text" class="text-xs font-medium">Settings</span>
         </button>
     </div>
 
@@ -390,7 +400,7 @@
     <!-- AI Chatbot Modal -->
     <div id="chatbot-modal" class="fixed inset-x-0 bottom-0 bg-white dark-theme:bg-[#2d3748] rounded-t-3xl shadow-2xl z-50 flex flex-col h-3/4 chatbot-modal">
         <div class="p-4 flex justify-between items-center border-b border-gray-200 dark-theme:border-gray-600">
-            <h3 class="text-xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D]">Farm-Up AI Chatbot</h3>
+            <h3 id="chatbot-heading" class="text-xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D]">Farm-Up AI Chatbot</h3>
             <button id="chatbot-close-btn" class="text-gray-500 hover:text-gray-800 dark-theme:text-gray-400 dark-theme:hover:text-gray-200 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
@@ -411,27 +421,30 @@
     <!-- Settings Modal -->
     <div id="settings-modal" class="fixed inset-x-0 bottom-0 bg-white dark-theme:bg-[#2d3748] rounded-t-3xl shadow-2xl z-50 flex flex-col h-1/2 settings-modal">
         <div class="p-4 flex justify-between items-center border-b border-gray-200 dark-theme:border-gray-600">
-            <h3 class="text-xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D]">Settings</h3>
+            <h3 id="settings-heading" class="text-xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D]">Settings</h3>
             <button id="settings-close-btn" class="text-gray-500 hover:text-gray-800 dark-theme:text-gray-400 dark-theme:hover:text-gray-200 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
         <div class="p-6">
-            <h4 class="text-lg font-semibold mb-2 text-gray-700 dark-theme:text-gray-300">Theme</h4>
+            <h4 id="theme-heading" class="text-lg font-semibold mb-2 text-gray-700 dark-theme:text-gray-300">Theme</h4>
             <div class="flex items-center space-x-2 mb-6">
                 <button id="theme-toggle-btn" class="p-3 rounded-xl bg-gray-100 dark-theme:bg-gray-600 text-gray-800 dark-theme:text-white transition-colors">
                     Toggle Dark/Light Mode
                 </button>
             </div>
             
-            <h4 class="text-lg font-semibold mb-2 text-gray-700 dark-theme:text-gray-300">Language</h4>
+            <h4 id="language-heading" class="text-lg font-semibold mb-2 text-gray-700 dark-theme:text-gray-300">Language</h4>
             <div id="language-menu" class="language-menu static active bg-white dark-theme:bg-transparent shadow-none py-0 w-auto">
                 <ul class="list-none p-0 m-0 text-gray-800 dark-theme:text-white">
                     <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="en">English</li>
                     <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="hi">Hindi (हिंदी)</li>
                     <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="pa">Punjabi (ਪੰਜਾਬੀ)</li>
+                    <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="mr">Marathi (मराठी)</li>
+                    <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="bn">Bengali (বাংলা)</li>
                     <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="ta">Tamil (தமிழ்)</li>
                     <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="te">Telugu (తెలుగు)</li>
+                    <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="kn">Kannada (ಕನ್ನಡ)</li>
                 </ul>
             </div>
         </div>
@@ -460,21 +473,147 @@
         const settingsCloseBtn = document.getElementById('settings-close-btn');
         const themeToggleBtn = document.getElementById('theme-toggle-btn');
         const body = document.body;
+        
         const homeHeading = document.getElementById('home-heading');
+        const statsHeading = document.getElementById('stats-heading');
+        const weatherGraphTitle = document.getElementById('weather-graph-title');
+        const navHomeText = document.getElementById('nav-home-text');
+        const navDetectText = document.getElementById('nav-detect-text');
+        const navAdvisoryText = document.getElementById('nav-advisory-text');
+        const navCommunityText = document.getElementById('nav-community-text');
+        const navSettingsText = document.getElementById('nav-settings-text');
+        const settingsHeading = document.getElementById('settings-heading');
+        const themeHeading = document.getElementById('theme-heading');
+        const languageHeading = document.getElementById('language-heading');
+
         const languageOptions = document.querySelectorAll('#language-menu ul li');
         const weatherGraphContainer = document.getElementById('weather-graph-container');
         const yieldGraphContainer = document.getElementById('yield-graph-container');
         const weatherLoading = document.getElementById('weather-loading');
 
-        // Translations for the home heading
+        // Translations object with a wider range of text
         const translations = {
-            'en': 'Empowering Farmers with AI-Powered Intelligence',
-            'hi': 'एआई-संचालित इंटेलिजेंस से किसानों को सशक्त बनाना',
-            'pa': 'ਏਆਈ-ਸੰਚਾਲਿਤ ਖੁਫੀਆ ਜਾਣਕਾਰੀ ਨਾਲ ਕਿਸਾਨਾਂ ਨੂੰ ਸ਼ਕਤੀਕਰਨ',
-            'mr': 'एआय-शक्तीवर आधारित बुद्धिमत्तेने शेतकऱ्यांचे सक्षमीकरण',
-            'ta': 'AI-வழங்கப்பட்ட நுண்ணறிவுடன் விவசாயிகளுக்கு அதிகாரம் அளித்தல்',
-            'te': 'AI-పవర్డ్ ఇంటెలిஜெన్స్‌తో రైతులకు సాధिकारत కల్పించడం'
+            'en': {
+                'home-heading': 'Empowering Farmers with AI-Powered Intelligence',
+                'stats-heading': 'Key Agricultural Statistics (India)',
+                'weather-graph-title': 'Live Weather Forecast - Bareilly, India',
+                'nav-home-text': 'Home',
+                'nav-detect-text': 'Detect',
+                'nav-advisory-text': 'Advisory',
+                'nav-community-text': 'Community',
+                'nav-settings-text': 'Settings',
+                'settings-heading': 'Settings',
+                'theme-heading': 'Theme',
+                'language-heading': 'Language',
+            },
+            'hi': {
+                'home-heading': 'एआई-संचालित इंटेलिजेंस से किसानों को सशक्त बनाना',
+                'stats-heading': 'मुख्य कृषि आँकड़े (भारत)',
+                'weather-graph-title': 'लाइव मौसम पूर्वानुमान - बरेली, भारत',
+                'nav-home-text': 'होम',
+                'nav-detect-text': 'पहचानें',
+                'nav-advisory-text': 'सलाह',
+                'nav-community-text': 'समुदाय',
+                'nav-settings-text': 'सेटिंग्स',
+                'settings-heading': 'सेटिंग्स',
+                'theme-heading': 'थीम',
+                'language-heading': 'भाषा',
+            },
+            'pa': {
+                'home-heading': 'ਏਆਈ-ਸੰਚਾਲਿਤ ਖੁਫੀਆ ਜਾਣਕਾਰੀ ਨਾਲ ਕਿਸਾਨਾਂ ਨੂੰ ਸ਼ਕਤੀਕਰਨ',
+                'stats-heading': 'ਮੁੱਖ ਖੇਤੀਬਾੜੀ ਅੰਕੜੇ (ਭਾਰਤ)',
+                'weather-graph-title': 'ਲਾਈਵ ਮੌਸਮ ਦੀ ਭਵਿੱਖਬਾਣੀ - ਬਰੇਲੀ, ਭਾਰਤ',
+                'nav-home-text': 'ਹੋਮ',
+                'nav-detect-text': 'ਜਾਣੋ',
+                'nav-advisory-text': 'ਸਲਾਹ',
+                'nav-community-text': 'ਸਮੂਹ',
+                'nav-settings-text': 'ਸੈਟਿੰਗਜ਼',
+                'settings-heading': 'ਸੈਟਿੰਗਜ਼',
+                'theme-heading': 'ਥੀਮ',
+                'language-heading': 'ਭਾਸ਼ਾ',
+            },
+            'mr': {
+                'home-heading': 'एआय-शक्तीवर आधारित बुद्धिमत्तेने शेतकऱ्यांचे सक्षमीकरण',
+                'stats-heading': 'प्रमुख कृषी आकडेवारी (भारत)',
+                'weather-graph-title': 'थेट हवामान अंदाज - बरेली, भारत',
+                'nav-home-text': 'मुख्यपृष्ठ',
+                'nav-detect-text': 'ओळखा',
+                'nav-advisory-text': 'सल्ला',
+                'nav-community-text': 'समुदाय',
+                'nav-settings-text': 'सेटिंग्ज',
+                'settings-heading': 'सेटिंग्ज',
+                'theme-heading': 'थीम',
+                'language-heading': 'भाषा',
+            },
+            'bn': {
+                'home-heading': 'এআই-চালিত বুদ্ধিমত্তা দিয়ে কৃষকদের ক্ষমতায়ন',
+                'stats-heading': 'মূল কৃষি পরিসংখ্যান (ভারত)',
+                'weather-graph-title': 'সরাসরি আবহাওয়ার পূর্বাভাস - বরেলি, ভারত',
+                'nav-home-text': 'হোম',
+                'nav-detect-text': 'শনাক্ত করুন',
+                'nav-advisory-text': 'পরামর্শ',
+                'nav-community-text': 'সম্প্রদায়',
+                'nav-settings-text': 'সেটিংস',
+                'settings-heading': 'সেটিংস',
+                'theme-heading': 'থিম',
+                'language-heading': 'ভাষা',
+            },
+            'ta': {
+                'home-heading': 'AI-வழங்கப்பட்ட நுண்ணறிவுடன் விவசாயிகளுக்கு அதிகாரம் அளித்தல்',
+                'stats-heading': 'முக்கிய விவசாய புள்ளிவிவரங்கள் (இந்தியா)',
+                'weather-graph-title': 'நேரடி வானிலை முன்னறிவிப்பு - பரேலி, இந்தியா',
+                'nav-home-text': 'முகப்பு',
+                'nav-detect-text': 'கண்டறி',
+                'nav-advisory-text': 'ஆலோசனை',
+                'nav-community-text': 'சமூகம்',
+                'nav-settings-text': 'அமைப்புகள்',
+                'settings-heading': 'அமைப்புகள்',
+                'theme-heading': 'தீம்',
+                'language-heading': 'மொழி',
+            },
+            'te': {
+                'home-heading': 'AI-పవర్డ్ ఇంటెలిజెన్స్‌తో రైతులకు సాధికారత కల్పించడం',
+                'stats-heading': 'ప్రధాన వ్యవసాయ గణాంకాలు (భారతదేశం)',
+                'weather-graph-title': 'ప్రత్యక్ష వాతావరణ అంచనా - బరేలీ, భారతదేశం',
+                'nav-home-text': 'హోమ్',
+                'nav-detect-text': 'గుర్తించు',
+                'nav-advisory-text': 'సలహా',
+                'nav-community-text': 'సమాజం',
+                'nav-settings-text': 'సెట్టింగ్‌లు',
+                'settings-heading': 'సెట్టింగ్‌లు',
+                'theme-heading': 'థీమ్',
+                'language-heading': 'భాష',
+            },
+            'kn': {
+                'home-heading': 'ಎಐ-ಚಾಲಿತ ಬುದ್ಧಿಮತ್ತೆಯೊಂದಿಗೆ ರೈತರನ್ನು ಸಶಕ್ತಗೊಳಿಸುವುದು',
+                'stats-heading': 'ಪ್ರಮುಖ ಕೃಷಿ ಅಂಕಿಅಂಶಗಳು (ಭಾರತ)',
+                'weather-graph-title': 'ಲೈವ್ ಹವಾಮಾನ ಮುನ್ಸೂಚನೆ - ಬರೇಲಿ, ಭಾರತ',
+                'nav-home-text': 'ಮುಖಪುಟ',
+                'nav-detect-text': 'ಗುರುತಿಸಿ',
+                'nav-advisory-text': 'ಸಲಹೆ',
+                'nav-community-text': 'ಸಮುದಾಯ',
+                'nav-settings-text': 'ಸೆಟ್ಟಿಂಗ್‌ಗಳು',
+                'settings-heading': 'ಸೆಟ್ಟಿಂಗ್‌ಗಳು',
+                'theme-heading': 'ಥೀಮ್',
+                'language-heading': 'ಭಾಷೆ',
+            },
         };
+        
+        // Function to update all page text based on the selected language
+        function updateContent(lang) {
+            const strings = translations[lang] || translations['en']; // Default to English
+            homeHeading.textContent = strings['home-heading'];
+            statsHeading.textContent = strings['stats-heading'];
+            weatherGraphTitle.textContent = strings['weather-graph-title'];
+            navHomeText.textContent = strings['nav-home-text'];
+            navDetectText.textContent = strings['nav-detect-text'];
+            navAdvisoryText.textContent = strings['nav-advisory-text'];
+            navCommunityText.textContent = strings['nav-community-text'];
+            navSettingsText.textContent = strings['nav-settings-text'];
+            settingsHeading.textContent = strings['settings-heading'];
+            themeHeading.textContent = strings['theme-heading'];
+            languageHeading.textContent = strings['language-heading'];
+        }
 
         // Gemini API constants
         const API_KEY = ""; // Canvas will automatically provide this
@@ -527,9 +666,7 @@
         languageOptions.forEach(option => {
             option.addEventListener('click', (e) => {
                 const lang = e.target.getAttribute('data-lang');
-                if (translations[lang]) {
-                    homeHeading.textContent = translations[lang];
-                }
+                updateContent(lang);
                 settingsModal.classList.remove('active'); // Close settings modal after selection
             });
         });
@@ -635,8 +772,8 @@
                 newMessageDiv.classList.add('flex', 'items-start', 'justify-end');
                 newMessageDiv.innerHTML = `
                     <div class="bg-gray-100 dark-theme:bg-gray-700 p-4 rounded-3xl max-w-xs shadow-sm">
-                        <p class="text-sm font-semibold text-gray-800 dark-theme:text-gray-200">You</p>
-                        <p class="text-gray-700 dark-theme:text-gray-300 mt-1">${message}</p>
+                        <p class="text-sm font-semibold text-gray-800">You</p>
+                        <p class="text-gray-700 mt-1">Sounds like a nitrogen deficiency. Try using a small amount of urea. It's affordable and effective.</p>
                     </div>
                 `;
                 communityChatBox.appendChild(newMessageDiv);
@@ -806,6 +943,34 @@
             });
         }
         
+        function getWeatherIcon(wmoCode) {
+            // Mapping WMO codes to simple weather states and SVGs
+            const icons = {
+                0: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" /><line x1="12" y1="2" x2="12" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><line x1="12" y1="20" x2="12" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><line x1="4.929" y1="4.929" x2="6.343" y2="6.343" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><line x1="17.657" y1="17.657" x2="19.071" y2="19.071" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><line x1="2" y1="12" x2="4" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><line x1="20" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><line x1="4.929" y1="19.071" x2="6.343" y2="17.657" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><line x1="17.657" y1="6.343" x2="19.071" y2="4.929" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>`, // Clear sky
+                1: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.5a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5z" fill="currentColor" opacity="0.2"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`, // Mainly clear
+                2: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 17h6c1.104 0 2-.896 2-2s-.896-2-2-2h-2c0-2.209-1.791-4-4-4s-4 1.791-4 4h-.5c-2.485 0-4.5 2.015-4.5 4.5s2.015 4.5 4.5 4.5h11c1.933 0 3.5-1.567 3.5-3.5s-1.567-3.5-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`, // Partly cloudy
+                3: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 17h6c1.104 0 2-.896 2-2s-.896-2-2-2h-2c0-2.209-1.791-4-4-4s-4 1.791-4 4h-.5c-2.485 0-4.5 2.015-4.5 4.5s2.015 4.5 4.5 4.5h11c1.933 0 3.5-1.567 3.5-3.5s-1.567-3.5-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`, // Overcast
+                45: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 18a5 5 0 0 1-5-5c0-1.2.4-2.3 1-3.2l-.1-.5c-.8-2.6.2-5.4 2.5-6.6a5 5 0 0 1 4.5 9.1l-.1.5c.6.9 1 2 1 3.2a5 5 0 0 1-5 5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 18a5 5 0 0 1-5-5c0-1.2.4-2.3 1-3.2l-.1-.5c-.8-2.6.2-5.4 2.5-6.6a5 5 0 0 1 4.5 9.1l-.1.5c.6.9 1 2 1 3.2a5 5 0 0 1-5 5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`, // Fog and rime fog
+                48: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 18a5 5 0 0 1-5-5c0-1.2.4-2.3 1-3.2l-.1-.5c-.8-2.6.2-5.4 2.5-6.6a5 5 0 0 1 4.5 9.1l-.1.5c.6.9 1 2 1 3.2a5 5 0 0 1-5 5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 18a5 5 0 0 1-5-5c0-1.2.4-2.3 1-3.2l-.1-.5c-.8-2.6.2-5.4 2.5-6.6a5 5 0 0 1 4.5 9.1l-.1.5c.6.9 1 2 1 3.2a5 5 0 0 1-5 5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`, // Fog and rime fog
+                51: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Drizzle: Light, moderate, and dense intensity
+                53: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Drizzle: Light, moderate, and dense intensity
+                55: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Drizzle: Light, moderate, and dense intensity
+                61: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Rain: Slight, moderate, and heavy intensity
+                63: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Rain: Slight, moderate, and heavy intensity
+                65: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Rain: Slight, moderate, and heavy intensity
+                71: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Snow fall: Slight, moderate, and heavy intensity
+                73: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Snow fall: Slight, moderate, and heavy intensity
+                75: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Snow fall: Slight, moderate, and heavy intensity
+                80: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Rain showers: Slight, moderate, and violent
+                81: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Rain showers: Slight, moderate, and violent
+                82: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13h2c2.2 0 4 1.8 4 4s-1.8 4-4 4H8c-2.2 0-4-1.8-4-4 0-1.2.6-2.3 1.5-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21v2"/><path d="M7 11c-.8-1.5-2.2-2.3-4-2.3-2.2 0-4 1.8-4 4v4h2c2.2 0 4-1.8 4-4s-1.8-4-4-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/></svg>`, // Rain showers: Slight, moderate, and violent
+                95: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.5a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5z" fill="currentColor" opacity="0.2"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`, // Thunderstorm
+                96: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.5a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5z" fill="currentColor" opacity="0.2"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`, // Thunderstorm with slight and moderate hail
+                99: `<svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.5a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5z" fill="currentColor" opacity="0.2"/><path d="M12 1v2m0 18v2m-7-14h2m18 0h2m-14 4l1.42 1.42m-5.64-5.64l1.42 1.42m0 5.64l1.42-1.42m5.64 0l1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>` // Thunderstorm with slight and moderate hail
+            };
+            return icons[wmoCode] || '';
+        }
+
         // Function to render the live weather graph for Bareilly
         async function renderWeatherGraph() {
             weatherGraphContainer.innerHTML = '';
@@ -813,7 +978,7 @@
 
             const lat = 28.364;
             const lon = 79.415;
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=7`;
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto&forecast_days=7`;
 
             try {
                 const response = await fetch(url);
@@ -825,7 +990,8 @@
                 const graphData = dailyData.time.map((time, i) => ({
                     date: new Date(time),
                     maxTemp: dailyData.temperature_2m_max[i],
-                    minTemp: dailyData.temperature_2m_min[i]
+                    minTemp: dailyData.temperature_2m_min[i],
+                    weatherCode: dailyData.weathercode[i]
                 }));
 
                 weatherLoading.remove();
@@ -846,21 +1012,11 @@
                 const yRange = yMaxVal - yMinVal;
 
                 // Create date formatter for X-axis
-                const dateFormatter = new Intl.DateTimeFormat('en-IN', { weekday: 'short' });
+                const dateFormatter = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric' });
                 
                 // Render X and Y axis labels and lines
                 for (let i = 0; i < graphData.length; i++) {
                     const x = margin + (i / (graphData.length - 1)) * xMax;
-
-                    // X-axis date labels
-                    const dateText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                    dateText.setAttribute("x", x);
-                    dateText.setAttribute("y", height - 10);
-                    dateText.setAttribute("text-anchor", "middle");
-                    dateText.setAttribute("font-size", "12");
-                    dateText.setAttribute("fill", body.classList.contains('dark-theme') ? '#F8F8F4' : '#333');
-                    dateText.textContent = dateFormatter.format(graphData[i].date);
-                    svg.appendChild(dateText);
 
                     // Vertical grid lines
                     const vLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -919,6 +1075,53 @@
                 minLinePath.setAttribute("stroke-linecap", "round");
                 minLinePath.setAttribute("stroke-linejoin", "round");
                 svg.appendChild(minLinePath);
+
+                // Add weather icons and temperature labels
+                graphData.forEach((d, i) => {
+                    const x = margin + (i / (graphData.length - 1)) * xMax;
+
+                    // Day of the week and date
+                    const dayName = dateFormatter.format(d.date);
+                    const dateLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    dateLabel.setAttribute("x", x);
+                    dateLabel.setAttribute("y", height - 10);
+                    dateLabel.setAttribute("text-anchor", "middle");
+                    dateLabel.setAttribute("font-size", "12");
+                    dateLabel.setAttribute("fill", body.classList.contains('dark-theme') ? '#F8F8F4' : '#333');
+                    dateLabel.textContent = dayName;
+                    svg.appendChild(dateLabel);
+
+                    // Weather icon
+                    const iconContainer = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
+                    iconContainer.setAttribute("x", x - 12);
+                    iconContainer.setAttribute("y", margin + 15);
+                    iconContainer.setAttribute("width", "24");
+                    iconContainer.setAttribute("height", "24");
+                    iconContainer.innerHTML = getWeatherIcon(d.weatherCode);
+                    svg.appendChild(iconContainer);
+
+                    // Max temp label
+                    const maxTempY = yMax - ((d.maxTemp - yMinVal) / yRange) * yMax + margin;
+                    const maxTempText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    maxTempText.setAttribute("x", x);
+                    maxTempText.setAttribute("y", maxTempY - 8);
+                    maxTempText.setAttribute("text-anchor", "middle");
+                    maxTempText.setAttribute("font-size", "12");
+                    maxTempText.setAttribute("fill", body.classList.contains('dark-theme') ? '#eac45f' : '#333');
+                    maxTempText.textContent = `${Math.round(d.maxTemp)}°`;
+                    svg.appendChild(maxTempText);
+
+                    // Min temp label
+                    const minTempY = yMax - ((d.minTemp - yMinVal) / yRange) * yMax + margin;
+                    const minTempText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    minTempText.setAttribute("x", x);
+                    minTempText.setAttribute("y", minTempY + 16);
+                    minTempText.setAttribute("text-anchor", "middle");
+                    minTempText.setAttribute("font-size", "12");
+                    minTempText.setAttribute("fill", body.classList.contains('dark-theme') ? '#eac45f' : '#333');
+                    minTempText.textContent = `${Math.round(d.minTemp)}°`;
+                    svg.appendChild(minTempText);
+                });
 
             } catch (error) {
                 console.error('Error fetching weather data:', error);
