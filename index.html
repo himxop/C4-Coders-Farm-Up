@@ -7,12 +7,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #F8F8F4;
             color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        body.dark-theme {
+            background-color: #1a202c;
+            color: #ffffff;
         }
         .header-bg {
             background-color: #355e3b;
@@ -23,6 +28,11 @@
             border-radius: 1.5rem;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
             padding: 2.5rem;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .dark-theme .card {
+            background-color: #2d3748;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         .nav-btn.active {
             background-color: #eac45f;
@@ -48,12 +58,95 @@
         .chatbot-modal.active {
             transform: translateY(0);
         }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animated-card {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .feature-card {
+            transition: all 0.3s ease-in-out;
+            transform: translateY(0);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        .graph-container {
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            background-color: #F9F9F5;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+        }
+        .dark-theme .graph-container {
+            border-color: #4a5568;
+            background-color: #2d3748;
+        }
+        .graph-container:hover {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .graph-container svg {
+            width: 100%;
+            height: auto;
+        }
+        .stat-card {
+            background-color: #f0f0e8;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+        .dark-theme .stat-card {
+            background-color: #4a5568;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .language-menu {
+            position: absolute;
+            top: 100%;
+            right: 1rem;
+            margin-top: 0.5rem;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out, visibility 0.2s ease-in-out;
+        }
+        .language-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dark-theme .language-menu {
+            background-color: #355e3b;
+            color: #F8F8F4;
+        }
+        .language-menu ul li:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .dark-theme .language-menu ul li:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-modal {
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .settings-modal.active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <!-- Header with Project Title -->
-    <header class="header-bg text-white shadow-lg py-6 sm:py-8 text-center">
+    <header class="header-bg text-white shadow-lg py-6 sm:py-8 text-center relative">
         <h1 class="text-xl sm:text-2xl font-extrabold tracking-wide px-4">Farm-up AI | Smart farming companion app</h1>
     </header>
 
@@ -61,36 +154,100 @@
     <main class="flex-grow p-6 sm:p-12 pb-24">
         <div class="max-w-7xl mx-auto space-y-12">
             <!-- Home Section -->
-            <section id="page-home" class="page">
+            <section id="page-home" class="page animated-card">
                 <div class="card text-center">
                     <div class="flex flex-col items-center justify-center space-y-8">
-                        <svg class="w-32 h-32 feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-14h2v6h-2zm0 8h2v2h-2z" fill="#EAC45F"/>
-                            <path d="M12 17c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="#355e3b"/>
-                            <path d="M14 11.5c.83 0 1.5-.67 1.5-1.5S14.83 8.5 14 8.5 12.5 9.17 12.5 10s.67 1.5 1.5 1.5zM10 11.5c-.83 0-1.5-.67-1.5-1.5S9.17 8.5 10 8.5 11.5 9.17 11.5 10s-.67 1.5-1.5 1.5z" fill="#355e3b"/>
-                            <path d="M12 11c-2.76 0-5 2.24-5 5h10c0-2.76-2.24-5-5-5z" fill="#355e3b"/>
+                        <svg class="w-32 h-32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 21C12 21 3 13 3 7C3 4.23858 5.23858 2 8 2C10.669 2 12 5 12 5C12 5 13.331 2 16 2C18.7614 2 21 4.23858 21 7C21 13 12 21 12 21Z" fill="#eac45f" stroke="#355e3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 11C12 11 11.2426 12.2426 10.5 13C9.75736 13.7574 9 14 9 14" stroke="#355e3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <h2 class="text-4xl md:text-5xl font-extrabold text-[#355e3b] mb-4 tracking-tight leading-tight">
+                        <h2 id="home-heading" class="text-4xl md:text-5xl font-extrabold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-4 tracking-tight leading-tight">
                             Empowering Farmers with AI-Powered Intelligence
                         </h2>
-                        <p class="text-lg text-gray-600 mb-8 max-w-2xl">
+                        <p class="text-lg text-gray-600 dark-theme:text-gray-300 mb-8 max-w-2xl">
                             Farm-Up AI is a smart companion app designed to boost crop yield, optimize resource usage, and connect farmers through an easy-to-use, multilingual platform.
                         </p>
+                    </div>
+                </div>
+
+                <!-- Agricultural Statistics Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-6 text-center">Key Agricultural Statistics (India)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="stat-card flex flex-col items-center">
+                            <svg class="w-12 h-12 mb-2 text-[#355e3b] dark-theme:text-[#5D9A4D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v6m0 0v-6m0 6h-2m2 0h2m-1 0c-1.104 0-2-.896-2-2v-4m0 0l-2-2-2 2v-4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 6l-2-2-2 2m2-2v6"></path>
+                            </svg>
+                            <h4 class="text-4xl font-extrabold text-[#5D9A4D] dark-theme:text-[#eac45f]">329+ MT</h4>
+                            <p class="text-gray-600 dark-theme:text-gray-300 mt-1 text-center">Total Foodgrain Production (2022-23)</p>
+                        </div>
+                        <div class="stat-card flex flex-col items-center">
+                            <svg class="w-12 h-12 mb-2 text-[#355e3b] dark-theme:text-[#5D9A4D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm-4 7a4 4 0 00-4 4v2h8v-2a4 4 0 00-4-4z"></path>
+                            </svg>
+                            <h4 class="text-4xl font-extrabold text-[#5D9A4D] dark-theme:text-[#eac45f]">145+ Million</h4>
+                            <p class="text-gray-600 dark-theme:text-gray-300 mt-1 text-center">Total Number of Farmers</p>
+                        </div>
+                        <div class="stat-card flex flex-col items-center">
+                            <svg class="w-12 h-12 mb-2 text-[#355e3b] dark-theme:text-[#5D9A4D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s-8-6-8-12c0-4.418 3.582-8 8-8s8 3.582 8 8c0 6-8 12-8 12z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16.5a4.5 4.5 0 100-9 4.5 4.5 0 000 9z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18a6 6 0 100-12 6 6 0 000 12z"></path>
+                            </svg>
+                            <h4 class="text-4xl font-extrabold text-[#5D9A4D] dark-theme:text-[#eac45f]">40%</h4>
+                            <p class="text-gray-600 dark-theme:text-gray-300 mt-1 text-center">Total Irrigated Area</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Partner Brands Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-6 text-center">Our Partners</h3>
+                    <div class="flex flex-wrap justify-center items-center gap-8 space-y-4 sm:space-y-0">
+                        <!-- Placeholder logos for Agri-brands -->
+                        <div class="w-20 h-20 bg-[#f0f0e8] dark-theme:bg-gray-600 rounded-full flex items-center justify-center p-2 shadow-sm transition-transform hover:scale-110">
+                            <svg class="w-12 h-12 text-[#355e3b] dark-theme:text-[#F8F8F4]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M3 6h18M3 18h18"></path>
+                            </svg>
+                        </div>
+                        <div class="w-20 h-20 bg-[#f0f0e8] dark-theme:bg-gray-600 rounded-full flex items-center justify-center p-2 shadow-sm transition-transform hover:scale-110">
+                            <svg class="w-12 h-12 text-[#355e3b] dark-theme:text-[#F8F8F4]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2c-4.971 0-9 4.029-9 9 0 5.143 8.356 12.186 8.5 12.5.15.226.5.226.65 0 .144-.314 8.5-7.357 8.5-12.5 0-4.971-4.029-9-9-9z"></path>
+                            </svg>
+                        </div>
+                        <div class="w-20 h-20 bg-[#f0f0e8] dark-theme:bg-gray-600 rounded-full flex items-center justify-center p-2 shadow-sm transition-transform hover:scale-110">
+                            <svg class="w-12 h-12 text-[#355e3b] dark-theme:text-[#F8F8F4]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13a3 3 0 100-6 3 3 0 000 6z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Weather Graph Section -->
+                <div class="mt-12">
+                    <h3 id="weather-graph-title" class="text-2xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-6 text-center">Live Weather Forecast - Bareilly, India</h3>
+                    <div id="weather-graph-container" class="graph-container">
+                         <div id="weather-loading" class="text-center py-8">
+                            <p class="text-gray-500 dark-theme:text-gray-400">Loading weather data...</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- Detect Section -->
-            <section id="page-detect" class="page hidden">
+            <section id="page-detect" class="page hidden animated-card">
                 <div class="card">
-                    <h2 class="text-3xl font-bold text-[#355e3b] mb-8 text-center">AI Crop Health Analysis</h2>
+                    <h2 class="text-3xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-8 text-center">AI Crop Health Analysis</h2>
                     <div class="flex flex-col items-center space-y-8">
-                        <div id="upload-area" class="w-full max-w-xl bg-gray-50 border-4 border-dashed border-gray-200 rounded-2xl p-12 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors">
+                        <div id="upload-area" class="w-full max-w-xl bg-gray-50 dark-theme:bg-gray-700 border-4 border-dashed border-gray-200 dark-theme:border-gray-600 rounded-2xl p-12 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 dark-theme:hover:bg-gray-600 transition-colors">
                             <input type="file" id="image-upload" accept="image/*" class="hidden">
                             <svg class="w-16 h-16 text-gray-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
                             </svg>
-                            <span class="text-gray-500 font-semibold text-lg">Click to Upload a Crop Photo</span>
+                            <span class="text-gray-500 font-semibold text-lg dark-theme:text-gray-300">Click to Upload a Crop Photo</span>
                         </div>
                         <img id="image-preview" src="#" alt="Uploaded crop image" class="hidden w-full max-w-sm h-auto rounded-xl shadow-lg object-cover">
                         <div id="detection-result" class="hidden w-full max-w-xl text-center p-6 rounded-2xl">
@@ -105,61 +262,91 @@
             </section>
 
             <!-- Advisory Section -->
-            <section id="page-advisory" class="page hidden">
+            <section id="page-advisory" class="page hidden animated-card">
                 <div class="card">
-                    <h2 class="text-3xl font-bold text-[#355e3b] mb-8 text-center">Personalized Crop Advisory</h2>
-                    <div id="advisory-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="bg-[#F8F8F4] p-6 rounded-2xl border border-gray-200 flex flex-col items-center text-center">
+                    <h2 class="text-3xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-8 text-center">Personalized Crop Advisory</h2>
+                    <!-- Dynamic Graph -->
+                    <h3 class="text-xl font-semibold text-center text-gray-700 dark-theme:text-gray-300 mt-8 mb-4">Indian Agricultural Yield Trend (Tonnes/Hectare)</h3>
+                    <div id="yield-graph-container" class="graph-container">
+                        <!-- SVG graph will be rendered here by JavaScript -->
+                    </div>
+                    <div id="advisory-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                        <!-- Card 1: Crop Nutrition -->
+                        <div class="bg-[#F8F8F4] dark-theme:bg-gray-700 p-6 rounded-2xl border border-gray-200 dark-theme:border-gray-600 flex flex-col items-center text-center feature-card">
                             <div class="feature-icon mb-4">
-                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15.5l-3 3-3-3M11 8.5l-3-3-3 3"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5v14"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 15.5l3 3 3-3M16 8.5l3-3 3 3"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 5v14"></path></svg>
+                                <svg class="w-12 h-12 text-[#355e3b] dark-theme:text-[#5D9A4D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354v15.3l-2.771-2.771M12 4.354l2.771-2.771M12 4.354V21m0-16.646L14.771 7.125"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 11h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2z"></path>
+                                </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-[#355e3b] mb-2">Efficient Irrigation</h3>
-                            <p class="text-gray-600 text-sm">Optimize your water usage with personalized irrigation schedules and weather alerts to ensure healthy crop growth.</p>
+                            <h3 class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Fertilizer & Nutrition</h3>
+                            <p class="text-gray-600 dark-theme:text-gray-300 text-sm">Get real-time recommendations for optimal fertilizer use and soil health based on your location and crop type.</p>
                         </div>
-                        <div class="bg-[#F8F8F4] p-6 rounded-2xl border border-gray-200 flex flex-col items-center text-center">
+                        <!-- Card 2: Pest & Disease -->
+                        <div class="bg-[#F8F8F4] dark-theme:bg-gray-700 p-6 rounded-2xl border border-gray-200 dark-theme:border-gray-600 flex flex-col items-center text-center feature-card">
                             <div class="feature-icon mb-4">
-                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354v15.3l-2.771-2.771M12 4.354l2.771-2.771M12 4.354V21m0-16.646L14.771 7.125"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 11h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2z"></path></svg>
+                                <svg class="w-12 h-12 text-[#355e3b] dark-theme:text-[#5D9A4D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3"></path>
+                                </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-[#355e3b] mb-2">Fertilizer & Nutrition</h3>
-                            <p class="text-gray-600 text-sm">Get real-time recommendations for optimal fertilizer use and soil health based on your location and crop type.</p>
+                            <h3 class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Pest & Disease Control</h3>
+                            <p class="text-gray-600 dark-theme:text-gray-300 text-sm">Identify early signs of pests and diseases with our AI and receive advice on protective measures and treatments.</p>
                         </div>
-                        <div class="bg-[#F8F8F4] p-6 rounded-2xl border border-gray-200 flex flex-col items-center text-center">
+                        <!-- Card 3: Irrigation Tips -->
+                        <div class="bg-[#F8F8F4] dark-theme:bg-gray-700 p-6 rounded-2xl border border-gray-200 dark-theme:border-gray-600 flex flex-col items-center text-center feature-card">
                             <div class="feature-icon mb-4">
-                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3"></path></svg>
+                                <svg class="w-12 h-12 text-[#355e3b] dark-theme:text-[#5D9A4D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15.5l-3 3-3-3M11 8.5l-3-3-3 3"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5v14"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 15.5l3 3 3-3M16 8.5l3-3 3 3"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 5v14"></path>
+                                </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-[#355e3b] mb-2">Pest & Disease Control</h3>
-                            <p class="text-gray-600 text-sm">Identify early signs of pests and diseases with our AI and receive advice on protective measures and treatments.</p>
+                            <h3 class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Efficient Irrigation</h3>
+                            <p class="text-gray-600 dark-theme:text-gray-300 text-sm">Optimize your water usage with personalized irrigation schedules and weather alerts to ensure healthy crop growth.</p>
+                        </div>
+                        <!-- Card 4: Weather Alerts & Yield Optimization -->
+                        <div class="bg-[#F8F8F4] dark-theme:bg-gray-700 p-6 rounded-2xl border border-gray-200 dark-theme:border-gray-600 flex flex-col items-center text-center feature-card">
+                            <div class="feature-icon mb-4">
+                                <svg class="w-12 h-12 text-[#355e3b] dark-theme:text-[#5D9A4D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10a2 2 0 100-4 2 2 0 000 4z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 12.364l-1.414 1.414L12 8.414 7.05 13.364l-1.414-1.414L12 5.536l6.364 6.364z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h6m-3-3v6m-4-3h12a2 2 0 002-2V9a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#355e3b] dark-theme:text-[#F8F8F4] mb-2">Weather Alerts & Yield Optimization</h3>
+                            <p class="text-gray-600 dark-theme:text-gray-300 text-sm">Receive timely weather forecasts and AI-driven tips to protect your crops and maximize your harvest.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- Community Section -->
-            <section id="page-community" class="page hidden">
+            <section id="page-community" class="page hidden animated-card">
                 <div class="card">
-                    <h2 class="text-3xl font-bold text-[#355e3b] mb-8 text-center">Connect with the Farming Community</h2>
-                    <div id="chat-box" class="h-96 overflow-y-auto p-6 bg-gray-50 rounded-2xl mb-6 space-y-4">
+                    <h2 class="text-3xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D] mb-8 text-center">Connect with the Farming Community</h2>
+                    <div id="chat-box" class="h-96 overflow-y-auto p-6 bg-gray-50 dark-theme:bg-gray-700 rounded-2xl mb-6 space-y-4">
                         <div class="flex items-start">
-                            <div class="message-box-other p-4 rounded-3xl max-w-xs shadow-sm">
+                            <div class="bg-gray-100 p-4 rounded-3xl max-w-xs shadow-sm">
                                 <p class="text-sm font-semibold text-gray-800">Krishnan</p>
                                 <p class="text-gray-700 mt-1">My wheat crop looks a bit yellow, any suggestions for a cheap fertilizer?</p>
                             </div>
                         </div>
                         <div class="flex items-start justify-end">
-                            <div class="message-box-user p-4 rounded-3xl max-w-xs shadow-sm">
+                            <div class="bg-[#eac45f] text-gray-800 p-4 rounded-3xl max-w-xs shadow-sm">
                                 <p class="text-sm font-semibold text-gray-800">You</p>
                                 <p class="text-gray-700 mt-1">Sounds like a nitrogen deficiency. Try using a small amount of urea. It's affordable and effective.</p>
                             </div>
                         </div>
                         <div class="flex items-start">
-                            <div class="message-box-other p-4 rounded-3xl max-w-xs shadow-sm">
+                            <div class="bg-gray-100 p-4 rounded-3xl max-w-xs shadow-sm">
                                 <p class="text-sm font-semibold text-gray-800">Sunil</p>
-                                <p class="text-gray-700 mt-1">I agree. Also, check the weather forecast to make sure it won't rain immediately after you apply it.</p>
+                                <p class="text-700 mt-1">I agree. Also, check the weather forecast to make sure it won't rain immediately after you apply it.</p>
                             </div>
                         </div>
                     </div>
                     <form id="chat-form" class="flex">
-                        <input type="text" id="chat-input" placeholder="Type your message..." class="flex-grow p-4 rounded-l-2xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#EAC45F]">
+                        <input type="text" id="chat-input" placeholder="Type your message..." class="flex-grow p-4 rounded-l-2xl border-2 border-gray-300 dark-theme:border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#EAC45F] dark-theme:bg-gray-700 dark-theme:text-gray-200">
                         <button type="submit" class="bg-[#EAC45F] text-[#333] px-8 py-4 rounded-r-2xl font-semibold hover:bg-[#D8B049] transition-colors">Send</button>
                     </form>
                 </div>
@@ -168,7 +355,7 @@
     </main>
 
     <!-- Bottom Navigation -->
-    <div class="fixed inset-x-0 bottom-0 bg-white shadow-xl rounded-t-3xl p-4 flex justify-around">
+    <div class="fixed inset-x-0 bottom-0 bg-white dark-theme:bg-[#2d3748] shadow-xl rounded-t-3xl p-4 flex justify-around">
         <button id="nav-home" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24 active">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 9v11h6v-6h6v6h6V9L12 2z"/></svg>
             <span class="text-xs font-medium">Home</span>
@@ -185,6 +372,10 @@
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 14v-2h8v2H6zm10-4H6V8h10v2z"/></svg>
             <span class="text-xs font-medium">Community</span>
         </button>
+        <button id="nav-settings" class="nav-btn flex flex-col items-center space-y-1 p-2 rounded-2xl w-24">
+             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-3.313 0-6-2.687-6-6s2.687-6 6-6 6 2.687 6 6-2.687 6-6 6zM12 14c-1.104 0-2-.896-2-2s.896-2 2-2 2 .896 2 2-.896 2-2 2zM21.582 11.233c.097.553.149 1.114.149 1.684 0 .57-.052 1.131-.149 1.684l2.454 1.838c.107.079.141.203.092.327l-2.079 3.597c-.049.124-.176.17-.291.131l-2.821-.994c-.461.341-.95.632-1.464.878l-.403 3.033c-.033.25-.246.435-.499.435h-4.156c-.253 0-.466-.185-.499-.435l-.403-3.033c-.514-.246-1.003-.537-1.464-.878l-2.821.994c-.115.039-.242-.007-.291-.131l-2.079-3.597c-.049-.124-.015-.248.092-.327l2.454-1.838c-.097-.553-.149-1.114-.149-1.684s.052-1.131.149-1.684l-2.454-1.838c-.107-.079-.141-.203-.092-.327l2.079-3.597c.049.124.176-.17.291-.131l2.821.994c.461-.341.95-.632 1.464-.878l.403-3.033c.033-.25.246-.435.499-.435h4.156c.253 0 .466.185.499.435l.403 3.033c.514.246 1.003.537 1.464.878l2.821-.994c.115-.039.242.007.291.131l2.079 3.597c.049.124.015.248-.092.327l-2.454 1.838z"/></svg>
+            <span class="text-xs font-medium">Settings</span>
+        </button>
     </div>
 
     <!-- Floating AI Chatbot Button -->
@@ -197,25 +388,55 @@
     </button>
 
     <!-- AI Chatbot Modal -->
-    <div id="chatbot-modal" class="fixed inset-x-0 bottom-0 bg-white rounded-t-3xl shadow-2xl z-50 flex flex-col h-3/4 chatbot-modal">
-        <div class="p-4 flex justify-between items-center border-b border-gray-200">
-            <h3 class="text-xl font-bold text-[#355e3b]">Farm-Up AI Chatbot</h3>
-            <button id="chatbot-close-btn" class="text-gray-500 hover:text-gray-800 transition-colors">
+    <div id="chatbot-modal" class="fixed inset-x-0 bottom-0 bg-white dark-theme:bg-[#2d3748] rounded-t-3xl shadow-2xl z-50 flex flex-col h-3/4 chatbot-modal">
+        <div class="p-4 flex justify-between items-center border-b border-gray-200 dark-theme:border-gray-600">
+            <h3 class="text-xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D]">Farm-Up AI Chatbot</h3>
+            <button id="chatbot-close-btn" class="text-gray-500 hover:text-gray-800 dark-theme:text-gray-400 dark-theme:hover:text-gray-200 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
         <div id="ai-chat-box" class="flex-grow overflow-y-auto p-4 space-y-4">
             <div class="flex items-start">
-                <div class="p-3 bg-gray-100 rounded-2xl max-w-[80%]">
-                    <p class="text-sm text-gray-800">Hello! I'm your AI farming assistant. How can I help you today? You can ask me anything about crops, soil, or weather.</p>
+                <div class="p-3 bg-gray-100 dark-theme:bg-gray-700 rounded-2xl max-w-[80%]">
+                    <p class="text-sm text-gray-800 dark-theme:text-gray-200">Hello! I'm your AI farming assistant. How can I help you today? You can ask me anything about crops, soil, or weather.</p>
                 </div>
             </div>
         </div>
-        <form id="ai-chat-form" class="p-4 border-t border-gray-200 flex">
-            <input type="text" id="ai-chat-input" placeholder="Ask me anything..." class="flex-grow p-3 rounded-l-2xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5D9A4D]">
+        <form id="ai-chat-form" class="p-4 border-t border-gray-200 dark-theme:border-gray-600 flex">
+            <input type="text" id="ai-chat-input" placeholder="Ask me anything..." class="flex-grow p-3 rounded-l-2xl border-2 border-gray-300 dark-theme:border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#5D9A4D] dark-theme:bg-gray-700 dark-theme:text-gray-200">
             <button type="submit" class="bg-[#EAC45F] text-[#333] px-6 py-3 rounded-r-2xl font-semibold hover:bg-[#D8B049] transition-colors">Send</button>
         </form>
     </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="fixed inset-x-0 bottom-0 bg-white dark-theme:bg-[#2d3748] rounded-t-3xl shadow-2xl z-50 flex flex-col h-1/2 settings-modal">
+        <div class="p-4 flex justify-between items-center border-b border-gray-200 dark-theme:border-gray-600">
+            <h3 class="text-xl font-bold text-[#355e3b] dark-theme:text-[#5D9A4D]">Settings</h3>
+            <button id="settings-close-btn" class="text-gray-500 hover:text-gray-800 dark-theme:text-gray-400 dark-theme:hover:text-gray-200 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="p-6">
+            <h4 class="text-lg font-semibold mb-2 text-gray-700 dark-theme:text-gray-300">Theme</h4>
+            <div class="flex items-center space-x-2 mb-6">
+                <button id="theme-toggle-btn" class="p-3 rounded-xl bg-gray-100 dark-theme:bg-gray-600 text-gray-800 dark-theme:text-white transition-colors">
+                    Toggle Dark/Light Mode
+                </button>
+            </div>
+            
+            <h4 class="text-lg font-semibold mb-2 text-gray-700 dark-theme:text-gray-300">Language</h4>
+            <div id="language-menu" class="language-menu static active bg-white dark-theme:bg-transparent shadow-none py-0 w-auto">
+                <ul class="list-none p-0 m-0 text-gray-800 dark-theme:text-white">
+                    <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="en">English</li>
+                    <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="hi">Hindi (हिंदी)</li>
+                    <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="pa">Punjabi (ਪੰਜਾਬੀ)</li>
+                    <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="ta">Tamil (தமிழ்)</li>
+                    <li class="px-4 py-2 hover:bg-gray-100 dark-theme:hover:bg-gray-700 rounded-lg cursor-pointer text-sm" data-lang="te">Telugu (తెలుగు)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         const pages = document.querySelectorAll('.page');
@@ -234,63 +455,174 @@
         const communityChatForm = document.getElementById('chat-form');
         const communityChatInput = document.getElementById('chat-input');
         const communityChatBox = document.getElementById('chat-box');
+        const navSettingsBtn = document.getElementById('nav-settings');
+        const settingsModal = document.getElementById('settings-modal');
+        const settingsCloseBtn = document.getElementById('settings-close-btn');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const body = document.body;
+        const homeHeading = document.getElementById('home-heading');
+        const languageOptions = document.querySelectorAll('#language-menu ul li');
+        const weatherGraphContainer = document.getElementById('weather-graph-container');
+        const yieldGraphContainer = document.getElementById('yield-graph-container');
+        const weatherLoading = document.getElementById('weather-loading');
 
-        // Function to show a specific page
+        // Translations for the home heading
+        const translations = {
+            'en': 'Empowering Farmers with AI-Powered Intelligence',
+            'hi': 'एआई-संचालित इंटेलिजेंस से किसानों को सशक्त बनाना',
+            'pa': 'ਏਆਈ-ਸੰਚਾਲਿਤ ਖੁਫੀਆ ਜਾਣਕਾਰੀ ਨਾਲ ਕਿਸਾਨਾਂ ਨੂੰ ਸ਼ਕਤੀਕਰਨ',
+            'mr': 'एआय-शक्तीवर आधारित बुद्धिमत्तेने शेतकऱ्यांचे सक्षमीकरण',
+            'ta': 'AI-வழங்கப்பட்ட நுண்ணறிவுடன் விவசாயிகளுக்கு அதிகாரம் அளித்தல்',
+            'te': 'AI-పవర్డ్ ఇంటెలిஜெన్స్‌తో రైతులకు సాధिकारत కల్పించడం'
+        };
+
+        // Gemini API constants
+        const API_KEY = ""; // Canvas will automatically provide this
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+        
+        // Function to show a specific page with animation
         function showPage(pageId) {
-            pages.forEach(page => page.classList.add('hidden'));
-            document.getElementById(pageId).classList.remove('hidden');
+            pages.forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('animated-card');
+            });
+            const currentPage = document.getElementById(pageId);
+            currentPage.classList.remove('hidden');
+            setTimeout(() => {
+                currentPage.classList.add('animated-card');
+            }, 10);
 
             navButtons.forEach(button => button.classList.remove('active'));
             const currentPageBtn = document.getElementById(`nav-${pageId.split('-')[1]}`);
             if (currentPageBtn) currentPageBtn.classList.add('active');
+
+            if (pageId === 'page-advisory') {
+                renderYieldGraph();
+            }
+            if (pageId === 'page-home') {
+                renderWeatherGraph();
+            }
         }
 
         // Handle navigation clicks
         navButtons.forEach(button => {
             button.addEventListener('click', () => {
-                const pageId = `page-${button.id.split('-')[1]}`;
-                showPage(pageId);
+                const pageId = button.id.includes('settings') ? null : `page-${button.id.split('-')[1]}`;
+                if (pageId) {
+                    showPage(pageId);
+                }
             });
         });
 
-        // Handle image upload
+        // Handle Settings modal logic
+        navSettingsBtn.addEventListener('click', () => {
+            settingsModal.classList.add('active');
+        });
+
+        settingsCloseBtn.addEventListener('click', () => {
+            settingsModal.classList.remove('active');
+        });
+
+        // Handle language selection
+        languageOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                const lang = e.target.getAttribute('data-lang');
+                if (translations[lang]) {
+                    homeHeading.textContent = translations[lang];
+                }
+                settingsModal.classList.remove('active'); // Close settings modal after selection
+            });
+        });
+
+        // Handle theme toggle
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-theme')) {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        });
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        }
+
+        // Handle image upload with Gemini Vision API
         uploadArea.addEventListener('click', () => {
             imageUploadInput.click();
         });
 
-        imageUploadInput.addEventListener('change', (e) => {
+        imageUploadInput.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = (event) => {
+                reader.onload = async (event) => {
+                    const base64Data = event.target.result.split(',')[1];
                     imagePreview.src = event.target.result;
                     imagePreview.classList.remove('hidden');
                     uploadArea.classList.add('hidden');
+
+                    // Show processing message
+                    detectionResultDiv.classList.remove('hidden');
+                    resultMessageDiv.classList.add('hidden');
+
+                    const userPrompt = "Analyze this image of a crop and provide a detailed report on its health. If there are signs of disease, pests, or deficiencies, identify them and suggest specific, simple remedies or best practices.";
+                    
+                    const payload = {
+                        contents: [
+                            {
+                                role: "user",
+                                parts: [
+                                    { text: userPrompt },
+                                    {
+                                        inlineData: {
+                                            mimeType: file.type,
+                                            data: base64Data
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                    };
+                    
+                    try {
+                        const response = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        
+                        if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+                        
+                        const result = await response.json();
+                        const generatedText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                        
+                        detectionResultDiv.classList.add('hidden');
+                        resultMessageDiv.textContent = generatedText || 'Could not get analysis. Please try a different image or prompt.';
+                        resultMessageDiv.className = 'mt-4 p-6 rounded-2xl text-center font-bold text-lg bg-gray-100 text-gray-800 dark-theme:bg-gray-700 dark-theme:text-gray-200';
+                        resultMessageDiv.classList.remove('hidden');
+                        
+                    } catch (error) {
+                        console.error('Error calling Gemini API:', error);
+                        detectionResultDiv.classList.add('hidden');
+                        resultMessageDiv.textContent = 'Sorry, an error occurred during analysis. Please try again.';
+                        resultMessageDiv.className = 'mt-4 p-6 rounded-2xl text-center font-bold text-lg bg-red-100 text-red-800';
+                        resultMessageDiv.classList.remove('hidden');
+                    }
                 };
                 reader.readAsDataURL(file);
-
-                // Show processing message
-                detectionResultDiv.classList.remove('hidden');
-                resultMessageDiv.classList.add('hidden');
-
-                setTimeout(() => {
-                    const randomNumber = Math.random();
-                    let resultText, resultClass;
-                    if (randomNumber < 0.3) {
-                        resultText = 'Analysis Complete: Your crop is healthy!';
-                        resultClass = 'bg-green-100 text-green-800';
-                    } else if (randomNumber < 0.7) {
-                        resultText = 'Analysis Complete: Early signs of a minor deficiency. See advisory for tips.';
-                        resultClass = 'bg-yellow-100 text-yellow-800';
-                    } else {
-                        resultText = 'Analysis Complete: Detected a fungal infection. See advisory for recommended treatment.';
-                        resultClass = 'bg-red-100 text-red-800';
-                    }
-                    detectionResultDiv.classList.add('hidden');
-                    resultMessageDiv.textContent = resultText;
-                    resultMessageDiv.className = `mt-4 p-6 rounded-2xl text-center font-bold text-lg ${resultClass}`;
-                    resultMessageDiv.classList.remove('hidden');
-                }, 2000);
             }
         });
 
@@ -302,9 +634,9 @@
                 const newMessageDiv = document.createElement('div');
                 newMessageDiv.classList.add('flex', 'items-start', 'justify-end');
                 newMessageDiv.innerHTML = `
-                    <div class="bg-gray-200 p-4 rounded-3xl max-w-xs shadow-sm">
-                        <p class="text-sm font-semibold text-gray-800">You</p>
-                        <p class="text-gray-700 mt-1">${message}</p>
+                    <div class="bg-gray-100 dark-theme:bg-gray-700 p-4 rounded-3xl max-w-xs shadow-sm">
+                        <p class="text-sm font-semibold text-gray-800 dark-theme:text-gray-200">You</p>
+                        <p class="text-gray-700 dark-theme:text-gray-300 mt-1">${message}</p>
                     </div>
                 `;
                 communityChatBox.appendChild(newMessageDiv);
@@ -322,31 +654,279 @@
             chatbotModal.classList.remove('active');
         });
 
-        // AI Chatbot message simulation
-        aiChatForm.addEventListener('submit', (e) => {
+        // AI Chatbot message with Gemini API
+        aiChatForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const userMessage = aiChatInput.value.trim();
-            if (userMessage) {
-                // Add user message to chatbox
-                const userMsgDiv = document.createElement('div');
-                userMsgDiv.classList.add('flex', 'justify-end');
-                userMsgDiv.innerHTML = `<div class="p-3 bg-blue-100 rounded-2xl max-w-[80%]">${userMessage}</div>`;
-                aiChatBox.appendChild(userMsgDiv);
-                aiChatInput.value = '';
+            if (!userMessage) return;
 
-                // Simulate AI response
-                setTimeout(() => {
-                    const aiResponseDiv = document.createElement('div');
-                    aiResponseDiv.classList.add('flex', 'items-start');
-                    aiResponseDiv.innerHTML = `<div class="p-3 bg-gray-100 rounded-2xl max-w-[80%]">I am a simulated AI assistant. To make me a real bot, you'll need to use the Gemini API to generate responses based on user queries!</div>`;
-                    aiChatBox.appendChild(aiResponseDiv);
-                    aiChatBox.scrollTop = aiChatBox.scrollHeight;
-                }, 1000);
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.classList.add('flex', 'justify-end');
+            userMsgDiv.innerHTML = `<div class="p-3 bg-blue-100 rounded-2xl max-w-[80%]">${userMessage}</div>`;
+            aiChatBox.appendChild(userMsgDiv);
+            aiChatInput.value = '';
 
+            // Add typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('flex', 'items-start');
+            typingIndicator.innerHTML = `<div class="p-3 bg-gray-100 dark-theme:bg-gray-700 rounded-2xl max-w-[80%] animate-pulse">Assistant is typing...</div>`;
+            aiChatBox.appendChild(typingIndicator);
+            aiChatBox.scrollTop = aiChatBox.scrollHeight;
+
+            const systemPrompt = "You are an expert farming assistant for Indian farmers. Provide concise, helpful advice on crop health, soil, weather, fertilizers, and general agricultural practices. Your advice should be practical and easy to understand.";
+            
+            const payload = {
+                contents: [{ parts: [{ text: userMessage }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+                
+                const result = await response.json();
+                const aiResponseText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                typingIndicator.remove(); // Remove typing indicator
+                
+                const aiResponseDiv = document.createElement('div');
+                aiResponseDiv.classList.add('flex', 'items-start');
+                aiResponseDiv.innerHTML = `<div class="p-3 bg-gray-100 dark-theme:bg-gray-700 rounded-2xl max-w-[80%]">${aiResponseText || 'Sorry, I could not generate a response.'}</div>`;
+                aiChatBox.appendChild(aiResponseDiv);
+                
+                aiChatBox.scrollTop = aiChatBox.scrollHeight;
+            } catch (error) {
+                console.error('Error calling Gemini API:', error);
+                typingIndicator.remove(); // Remove typing indicator
+                const errorDiv = document.createElement('div');
+                errorDiv.classList.add('flex', 'items-start');
+                errorDiv.innerHTML = `<div class="p-3 bg-red-100 text-red-800 rounded-2xl max-w-[80%]">Sorry, something went wrong. Please try again.</div>`;
+                aiChatBox.appendChild(errorDiv);
                 aiChatBox.scrollTop = aiChatBox.scrollHeight;
             }
         });
 
+
+        // Function to render the agricultural yield graph
+        function renderYieldGraph() {
+            const data = [
+                { year: 2018, yield: 2.3 },
+                { year: 2019, yield: 2.5 },
+                { year: 2020, yield: 2.8 },
+                { year: 2021, yield: 3.1 },
+                { year: 2022, yield: 3.0 },
+                { year: 2023, yield: 3.2 }
+            ];
+            
+            const container = yieldGraphContainer;
+            container.innerHTML = '';
+            
+            const width = container.clientWidth;
+            const height = 250;
+            const margin = 40;
+            
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+            container.appendChild(svg);
+            
+            const xMax = width - margin * 2;
+            const yMax = height - margin * 2;
+            const yRange = 3.5;
+            
+            const points = data.map((d, i) => {
+                const x = margin + (i / (data.length - 1)) * xMax;
+                const y = yMax - (d.yield / yRange) * yMax + margin;
+                return `${x},${y}`;
+            }).join(' ');
+
+            const linePath = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+            linePath.setAttribute("points", points);
+            linePath.setAttribute("fill", "none");
+            linePath.setAttribute("stroke", "#355e3b");
+            linePath.setAttribute("stroke-width", "3");
+            linePath.setAttribute("stroke-linecap", "round");
+            linePath.setAttribute("stroke-linejoin", "round");
+            svg.appendChild(linePath);
+            
+            // Add gradient fill
+            const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+            const gradient = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+            gradient.setAttribute("id", "yieldGradient");
+            gradient.setAttribute("x1", "0");
+            gradient.setAttribute("x2", "0");
+            gradient.setAttribute("y1", "0");
+            gradient.setAttribute("y2", "1");
+            const stop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            stop1.setAttribute("offset", "0%");
+            stop1.setAttribute("stop-color", "#eac45f");
+            stop1.setAttribute("stop-opacity", "0.8");
+            const stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            stop2.setAttribute("offset", "100%");
+            stop2.setAttribute("stop-color", "#eac45f");
+            stop2.setAttribute("stop-opacity", "0.1");
+            gradient.appendChild(stop1);
+            gradient.appendChild(stop2);
+            defs.appendChild(gradient);
+            svg.appendChild(defs);
+            
+            const areaPath = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+            areaPath.setAttribute("points", `${margin},${yMax + margin} ${points} ${width - margin},${yMax + margin}`);
+            areaPath.setAttribute("fill", "url(#yieldGradient)");
+            areaPath.setAttribute("stroke", "none");
+            svg.appendChild(areaPath);
+
+            // Add dots for each data point
+            data.forEach((d, i) => {
+                const x = margin + (i / (data.length - 1)) * xMax;
+                const y = yMax - (d.yield / yRange) * yMax + margin;
+
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("cx", x);
+                circle.setAttribute("cy", y);
+                circle.setAttribute("r", "5");
+                circle.setAttribute("fill", "#355e3b");
+                circle.setAttribute("stroke", "#F8F8F4");
+                circle.setAttribute("stroke-width", "2");
+                
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", x);
+                text.setAttribute("y", y - 10);
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("font-size", "12");
+                text.setAttribute("fill", "#333");
+                text.textContent = d.year;
+                
+                svg.appendChild(circle);
+                svg.appendChild(text);
+            });
+        }
+        
+        // Function to render the live weather graph for Bareilly
+        async function renderWeatherGraph() {
+            weatherGraphContainer.innerHTML = '';
+            weatherGraphContainer.appendChild(weatherLoading);
+
+            const lat = 28.364;
+            const lon = 79.415;
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=7`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Failed to fetch weather data.');
+                
+                const data = await response.json();
+                const dailyData = data.daily;
+                
+                const graphData = dailyData.time.map((time, i) => ({
+                    date: new Date(time),
+                    maxTemp: dailyData.temperature_2m_max[i],
+                    minTemp: dailyData.temperature_2m_min[i]
+                }));
+
+                weatherLoading.remove();
+                
+                const width = weatherGraphContainer.clientWidth;
+                const height = 250;
+                const margin = 40;
+                
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+                weatherGraphContainer.appendChild(svg);
+                
+                const xMax = width - margin * 2;
+                const yMax = height - margin * 2;
+                const allTemps = graphData.flatMap(d => [d.maxTemp, d.minTemp]);
+                const yMinVal = Math.floor(Math.min(...allTemps) - 2);
+                const yMaxVal = Math.ceil(Math.max(...allTemps) + 2);
+                const yRange = yMaxVal - yMinVal;
+
+                // Create date formatter for X-axis
+                const dateFormatter = new Intl.DateTimeFormat('en-IN', { weekday: 'short' });
+                
+                // Render X and Y axis labels and lines
+                for (let i = 0; i < graphData.length; i++) {
+                    const x = margin + (i / (graphData.length - 1)) * xMax;
+
+                    // X-axis date labels
+                    const dateText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    dateText.setAttribute("x", x);
+                    dateText.setAttribute("y", height - 10);
+                    dateText.setAttribute("text-anchor", "middle");
+                    dateText.setAttribute("font-size", "12");
+                    dateText.setAttribute("fill", body.classList.contains('dark-theme') ? '#F8F8F4' : '#333');
+                    dateText.textContent = dateFormatter.format(graphData[i].date);
+                    svg.appendChild(dateText);
+
+                    // Vertical grid lines
+                    const vLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    vLine.setAttribute("x1", x);
+                    vLine.setAttribute("x2", x);
+                    vLine.setAttribute("y1", margin);
+                    vLine.setAttribute("y2", yMax + margin);
+                    vLine.setAttribute("stroke", body.classList.contains('dark-theme') ? '#4a5568' : '#e5e7eb');
+                    vLine.setAttribute("stroke-dasharray", "2");
+                    svg.appendChild(vLine);
+                }
+
+                // Y-axis temperature labels
+                for (let i = 0; i <= 4; i++) {
+                    const y = margin + (i / 4) * yMax;
+                    const temp = yMaxVal - (i / 4) * yRange;
+                    
+                    const tempText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    tempText.setAttribute("x", margin - 10);
+                    tempText.setAttribute("y", y + 4);
+                    tempText.setAttribute("text-anchor", "end");
+                    tempText.setAttribute("font-size", "12");
+                    tempText.setAttribute("fill", body.classList.contains('dark-theme') ? '#F8F8F4' : '#333');
+                    tempText.textContent = `${Math.round(temp)}°C`;
+                    svg.appendChild(tempText);
+                }
+
+                // Render max temperature line
+                const maxTempPoints = graphData.map((d, i) => {
+                    const x = margin + (i / (graphData.length - 1)) * xMax;
+                    const y = yMax - ((d.maxTemp - yMinVal) / yRange) * yMax + margin;
+                    return `${x},${y}`;
+                }).join(' ');
+
+                const maxLinePath = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+                maxLinePath.setAttribute("points", maxTempPoints);
+                maxLinePath.setAttribute("fill", "none");
+                maxLinePath.setAttribute("stroke", "#eac45f");
+                maxLinePath.setAttribute("stroke-width", "3");
+                maxLinePath.setAttribute("stroke-linecap", "round");
+                maxLinePath.setAttribute("stroke-linejoin", "round");
+                svg.appendChild(maxLinePath);
+
+                // Render min temperature line
+                const minTempPoints = graphData.map((d, i) => {
+                    const x = margin + (i / (graphData.length - 1)) * xMax;
+                    const y = yMax - ((d.minTemp - yMinVal) / yRange) * yMax + margin;
+                    return `${x},${y}`;
+                }).join(' ');
+                
+                const minLinePath = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+                minLinePath.setAttribute("points", minTempPoints);
+                minLinePath.setAttribute("fill", "none");
+                minLinePath.setAttribute("stroke", "#355e3b");
+                minLinePath.setAttribute("stroke-width", "3");
+                minLinePath.setAttribute("stroke-linecap", "round");
+                minLinePath.setAttribute("stroke-linejoin", "round");
+                svg.appendChild(minLinePath);
+
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+                weatherLoading.textContent = 'Failed to load weather data. Please try again later.';
+                weatherLoading.className = 'text-center py-8 text-red-500';
+            }
+        }
+        
         // Initial page load
         document.addEventListener('DOMContentLoaded', () => {
             showPage('page-home');
